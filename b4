@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+void main() {
+runApp(MaterialApp(
+home: SafeArea(
+child: Scaffold(
+body: QuizPage(),
+),
+),
+));
+}
+class QuizPage extends StatefulWidget {
+const QuizPage({Key? key}) : super(key: key);
+@override
+_QuizPageState createState() => _QuizPageState();
+}
+class _QuizPageState extends State<QuizPage> {
+int questionNumber = 0;
+int currentScore = 0;
+Questions questions = Questions();
+void updateQuestionNumber() {
+setState(() {
+questionNumber += 1;
+print("$questionNumber");
+});
+}
+void updateCurrentScore(bool choice, int questionNumber) {
+if(questions.questionBank.length == questionNumber) {
+print("END OF QUESTIONS");
+} else {
+if(questions.questionBank[questionNumber].answer == choice) {
+setState(() {
+currentScore += 1;
+});
+}
+}
+}
+bool checkQuestionNumber(int questionNumber) {
+return questionNumber < questions.questionBank.length ? true : false;
+}
+@override
+Widget build(BuildContext context) {
+return Container(
+child: Column(
+children: [
+Center(
+child: Text(
+checkQuestionNumber(questionNumber) ?
+questions.questionBank[questionNumber].questionText.toString() : "END",
+style: TextStyle(fontSize: 40.0),
+),
+),
+SizedBox(height: 20.0),
+if(checkQuestionNumber(questionNumber))
+ElevatedButton(
+onPressed: () {
+setState(() {
+if(questionNumber == questions.questionBank.length) {
+print("END OF QUESTIONS");
+} else {
+updateCurrentScore(true, questionNumber);
+updateQuestionNumber();
+}
+});
+},
+child: Text("True"),
+),
+SizedBox(width: 20.0,),
+if(checkQuestionNumber(questionNumber))
+ElevatedButton(
+onPressed: () {
+setState(() {
+if(questionNumber == questions.questionBank.length) {
+print("END OF QUESTIONS");
+} else {
+updateCurrentScore(false, questionNumber);
+updateQuestionNumber();
+}
+});
+},
+child: Text("False"),
+),
+SizedBox(
+height: 100,
+),
+SizedBox(
+height: 50.0,
+),
+Padding(
+padding: const EdgeInsets.all(30.0),
+child: Center(
+child: Text(
+"Current Score is: ",
+style: TextStyle(fontSize: 30.0),
+),
+),
+),
+Padding(
+padding: const EdgeInsets.all(30.0),
+child: Center (
+child: Text(
+"${currentScore}",
+style: TextStyle(fontSize: 30.0),
+)
+),
+),
+],
+),
+);
+}
+}
+class Question {
+final String questionText;
+final bool answer;
+Question({required this.questionText, required this.answer});
+}
+class Questions {
+List<Question> questionBank = [
+Question(questionText: "India is Great", answer: true),
+Question(questionText: "Ronaldo is GOAT", answer: false),
+Question(questionText: "I am great", answer: true),
+Question(questionText: "Rajesh is GOAT", answer: true),
+Question(questionText: "Sai Surya is Sike", answer: true),
+Question(questionText: "There are 7 colours on rainbow", answer: true),
+Question(questionText: "Alphabet has 29 letters", answer: false),
+];
+}
