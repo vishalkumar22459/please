@@ -1,0 +1,76 @@
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+<ListView
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:id="@+id/list" />
+</LinearLayout>
+
+
+Layout.xml
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:text="Content"
+android:textSize="40sp"
+/>
+
+
+String.xml
+<resources>
+<string name="app_name">list(112)</string>
+<string-array name="IPL">
+<item>GT</item>
+<item>RR</item>
+<item>LSG</item>
+<item>RCB</item>
+<item>DC</item>
+<item>PBKS</item>
+<item>KKR</item>
+<item>SRH</item>
+<item>CSK</item>
+<item>MI</item>
+</string-array>
+</resources>
+
+
+Mainactivity.java
+package com.example.list112;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ListView myList;
+String countryList[];
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+myList = findViewById(R.id.list);
+countryList = getResources().getStringArray(R.array.IPL);
+ArrayAdapter<String> arrayAdapter = new
+ArrayAdapter<String>(this,R.layout.layout,countryList);
+myList.setAdapter(arrayAdapter);
+myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+@Override
+public void onItemClick(AdapterView<?> parent, View view, int
+position, long id) {
+Toast.makeText(MainActivity.this, "You Have Clicked",
+Toast.LENGTH_SHORT).show();
+}
+});
+}
+}
